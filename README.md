@@ -20,6 +20,6 @@ The intended GitHub Pages targets are:
 
 ## Two-way sync setup
 
-Create both repositories with `main` as the default branch and place this same repository content in both. Then add a repository secret named `EWM_SYNC_TOKEN` in both repositories. The token must have read/write Contents access to both repositories.
+Create both repositories with `main` as the default branch and place this same repository content in both. Then configure a repository secret named `PEER_DEPLOY_KEY` in each repository. The secret must contain the private SSH key whose public key is installed as a write-enabled deploy key on the peer repository.
 
-When a human push lands on either repository, the workflow force-mirrors that exact `main` commit to the peer repository. Pushes made by `github-actions[bot]` are skipped to prevent sync loops.
+When a push lands on either repository, the workflow compares the peer `main` SHA and force-mirrors the exact commit only when the peer is behind or different. The SHA check prevents sync loops after the peer receives the mirrored commit.

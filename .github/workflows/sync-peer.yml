@@ -43,16 +43,30 @@ jobs:
       - name: Push to peer
         if: ${{ steps.peer.outputs.target != '' }}
         env:
-          SYNC_TOKEN: ${{ secrets.EWM_SYNC_TOKEN }}
+          PEER_DEPLOY_KEY: ${{ secrets.PEER_DEPLOY_KEY }}
           TARGET_REPOSITORY: ${{ steps.peer.outputs.target }}
         shell: bash
         run: |
-          if [ -z "${SYNC_TOKEN}" ]; then
-            echo "Missing EWM_SYNC_TOKEN. Skipping peer sync until a token with Contents: read/write access to both repositories is configured."
+          if [ -z "${PEER_DEPLOY_KEY}" ]; then
+            echo "Missing PEER_DEPLOY_KEY. Skipping peer sync until the deploy key secret is configured."
             exit 0
           fi
 
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "${PEER_DEPLOY_KEY}" > ~/.ssh/peer_deploy_key
+          chmod 600 ~/.ssh/peer_deploy_key
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git remote add peer "https://x-access-token:${SYNC_TOKEN}@github.com/${TARGET_REPOSITORY}.git"
-          git push peer "HEAD:main" --force
+          git remote add peer "git@github.com:${TARGET_REPOSITORY}.git"
+
+          remote_sha="$(GIT_SSH_COMMAND='ssh -i ~/.ssh/peer_deploy_key -o IdentitiesOnly=yes' git ls-remote peer refs/heads/main | awk '{print $1}')"
+          local_sha="$(git rev-parse HEAD)"
+          if [ "${remote_sha}" = "${local_sha}" ]; then
+            echo "Peer already has ${local_sha}; nothing to sync."
+            exit 0
+          fi
+
+          GIT_SSH_COMMAND='ssh -i ~/.ssh/peer_deploy_key -o IdentitiesOnly=yes' git push peer "HEAD:main" --force
