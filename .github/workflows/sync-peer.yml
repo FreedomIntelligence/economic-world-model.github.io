@@ -48,8 +48,8 @@ jobs:
         shell: bash
         run: |
           if [ -z "${SYNC_TOKEN}" ]; then
-            echo "Missing EWM_SYNC_TOKEN. Add a token with Contents: read/write access to both repositories."
-            exit 1
+            echo "Missing EWM_SYNC_TOKEN. Skipping peer sync until a token with Contents: read/write access to both repositories is configured."
+            exit 0
           fi
 
           git config user.name "github-actions[bot]"
