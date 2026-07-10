@@ -1,0 +1,58 @@
+name: Sync peer GitHub Pages repository
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: peer-sync-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Mirror this branch to the peer repository
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'github-actions[bot]' || github.event_name == 'workflow_dispatch' }}
+    steps:
+      - name: Check out site
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve peer repository
+        id: peer
+        shell: bash
+        run: |
+          case "${GITHUB_REPOSITORY}" in
+            ewm/ewm.github.io)
+              echo "target=FreedomIntelligence/ewm.github.io" >> "$GITHUB_OUTPUT"
+              ;;
+            FreedomIntelligence/ewm.github.io)
+              echo "target=ewm/ewm.github.io" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "No peer repository configured for ${GITHUB_REPOSITORY}."
+              ;;
+          esac
+
+      - name: Push to peer
+        if: ${{ steps.peer.outputs.target != '' }}
+        env:
+          SYNC_TOKEN: ${{ secrets.EWM_SYNC_TOKEN }}
+          TARGET_REPOSITORY: ${{ steps.peer.outputs.target }}
+        shell: bash
+        run: |
+          if [ -z "${SYNC_TOKEN}" ]; then
+            echo "Missing EWM_SYNC_TOKEN. Add a token with Contents: read/write access to both repositories."
+            exit 1
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add peer "https://x-access-token:${SYNC_TOKEN}@github.com/${TARGET_REPOSITORY}.git"
+          git push peer "HEAD:main" --force

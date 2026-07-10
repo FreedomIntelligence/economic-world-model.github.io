@@ -1,0 +1,530 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Economic World Models Initiative</title>
+    <style>
+:root {
+  --black: #111111;
+  --near-black: #181818;
+  --ink: #222222;
+  --muted: #5d5a56;
+  --cream: #f4f0e8;
+  --paper: #fbfaf6;
+  --white: #ffffff;
+  --line: #d9d1c6;
+  --red: #8c1515;
+  --bright-red: #b1040e;
+  --brick: #6f1111;
+  --link: #006b81;
+  --max: 1240px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.45;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+[data-editable] {
+  outline-offset: 4px;
+}
+
+[data-editable]:focus {
+  outline: 2px dashed var(--bright-red);
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -80px;
+  z-index: 50;
+  background: var(--white);
+  color: var(--black);
+  padding: 10px 14px;
+}
+
+.skip-link:focus {
+  top: 16px;
+}
+
+.container {
+  width: min(calc(100% - 48px), var(--max));
+  margin: 0 auto;
+}
+
+.project-hero {
+  padding: 88px 0 70px;
+  background: var(--paper);
+}
+
+.hero-layout {
+  display: block;
+}
+
+.hero-main h1 {
+  max-width: 860px;
+  margin: 0 0 34px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(62px, 8vw, 112px);
+  font-weight: 400;
+  line-height: 0.93;
+  letter-spacing: 0;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag-list a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 8px 12px;
+  background: var(--red);
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: lowercase;
+}
+
+.body-section {
+  padding: 76px 0 88px;
+  background: var(--cream);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.body-grid {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 820px) 1fr;
+}
+
+.body-copy {
+  grid-column: 2;
+}
+
+.body-copy p {
+  margin: 0 0 28px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(24px, 2.7vw, 36px);
+  line-height: 1.18;
+}
+
+.body-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.quote-band {
+  padding: 74px 0;
+  background: var(--bright-red);
+  color: var(--white);
+}
+
+.quote-layout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 64px;
+  align-items: center;
+}
+
+.quote-layout--reverse {
+  grid-template-columns: minmax(0, 1fr) 320px;
+}
+
+.quote-layout--reverse .quote-image {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.quote-layout--reverse blockquote {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.quote-image {
+  margin: 0;
+}
+
+.quote-image img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.quote-image figcaption {
+  display: grid;
+  gap: 2px;
+  margin-top: 14px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.quote-image span {
+  font-weight: 400;
+}
+
+blockquote {
+  margin: 0;
+}
+
+blockquote p {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 5.4vw, 74px);
+  font-weight: 400;
+  line-height: 0.98;
+}
+
+.people-section {
+  background: var(--paper);
+  padding: 86px 0 64px;
+}
+
+.person-card {
+  display: grid;
+  grid-template-columns: 300px 180px minmax(0, 1fr);
+  gap: 38px;
+  align-items: start;
+  padding: 54px 0;
+  border-top: 1px solid var(--line);
+}
+
+.person-card:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.person-card--featured {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.person-media img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.person-connect {
+  display: grid;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.person-connect h3 {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.person-connect a,
+.read-more {
+  color: var(--bright-red);
+  font-weight: 800;
+}
+
+.person-copy h2 {
+  margin: 0 0 4px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(36px, 4vw, 58px);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.person-role {
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.person-copy p:not(.person-role) {
+  margin: 0 0 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  line-height: 1.42;
+}
+
+@media (max-width: 1040px) {
+  .quote-layout,
+  .quote-layout--reverse,
+  .person-card {
+    grid-template-columns: 1fr;
+  }
+
+  .quote-layout--reverse .quote-image,
+  .quote-layout--reverse blockquote {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .quote-image,
+  .person-media {
+    max-width: 360px;
+  }
+
+  .body-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .body-copy {
+    grid-column: auto;
+  }
+
+}
+
+@media (max-width: 720px) {
+  .container {
+    width: min(calc(100% - 30px), var(--max));
+  }
+
+  .project-hero {
+    padding: 58px 0 50px;
+  }
+
+  .hero-main h1 {
+    font-size: clamp(50px, 16vw, 72px);
+  }
+
+  .body-section,
+  .quote-band,
+  .people-section {
+    padding: 52px 0;
+  }
+
+  .person-card {
+    gap: 24px;
+    padding: 42px 0;
+  }
+
+}
+
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-editable="skip_link">Skip to content</a>
+    <main id="main">
+      <section class="project-hero">
+        <div class="container">
+          <div class="hero-layout">
+            <div class="hero-main">
+              <h1 data-editable="project_title">Economic World Models Initiative</h1>
+              <ul class="tag-list" aria-label="Project categories">
+                <li><a href="#" data-editable="tag_1">Ai agents</a></li>
+                <li><a href="#" data-editable="tag_2">Economics of transformative ai</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="body-section">
+        <div class="container body-grid">
+          <div class="body-copy">
+            <p data-editable="body_p_1">Economic decisions are usually made in the real world first and evaluated afterward. Economic World Models invert that workflow: they ask how we can build computable economies where heterogeneous agents observe, reason, act, interact, adapt, and co-evolve with markets and institutions before policies, strategies, or AI agents are deployed at scale.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="quote-band quote-band--top">
+        <div class="container quote-layout">
+          <figure class="quote-image">
+            <img src="1.png" alt="">
+            <figcaption>
+              <strong data-editable="quote_person_1">Lin William Cong</strong>
+              <span data-editable="quote_role_1">NTU President's Chair Professor</span>
+            </figcaption>
+          </figure>
+          <blockquote>
+            <p data-editable="quote_1">We use AI to build economic sandboxes where we can explore scenarios, incentives, and policy choices quickly and transparently.</p>
+          </blockquote>
+        </div>
+      </section>
+
+      <section class="people-section">
+        <style>
+          .person-extra[hidden] {
+            display: none;
+          }
+
+          .person-extra {
+            margin-top: -4px;
+          }
+
+          .read-more {
+            display: inline-flex;
+            margin-top: 2px;
+            cursor: pointer;
+          }
+        </style>
+        <div class="container">
+          <div class="person-card person-card--featured">
+            <div class="person-media">
+              <img src="1.png" alt="">
+            </div>
+            <div class="person-connect">
+              <h3 data-editable="connect_label_1">Connect</h3>
+              <a href="https://www.linwilliamcong.com/about" data-editable="connect_1_1">Personal Website</a>
+              <a href="https://scholar.google.com/" data-editable="connect_1_2">Google Scholar</a>
+              <a href="https://www.linkedin.com/" data-editable="connect_1_3">LinkedIn</a>
+            </div>
+            <div class="person-copy">
+              <h2 data-editable="person_1_name">Lin William Cong</h2>
+              <p class="person-role" data-editable="person_1_role">NTU President's Chair Professor; Associate Dean and Professor, Nanyang Business School</p>
+              <p data-editable="person_1_bio_1">Lin William Cong is President's Chair Professor in Finance, Computing and Data Science at Nanyang Technological University, with joint appointments at Nanyang Business School and the College of Computing and Data Science.</p>
+              <div class="person-extra" id="person_1_more" hidden>
+                <p data-editable="person_1_bio_2">His research spans financial economics, information economics, AI, FinTech, digital economy, entrepreneurship, tokenomics, blockchain and DeFi. He is also the Rudd Family Professor of Management and Finance at Cornell University, currently on leave.</p>
+              </div>
+              <a class="read-more" href="#person_1_more" aria-expanded="false" data-editable="person_1_read">Read more</a>
+            </div>
+          </div>
+
+          <div class="person-card">
+            <div class="person-media">
+              <img src="2.jpg" alt="">
+            </div>
+            <div class="person-connect">
+              <h3 data-editable="connect_label_2">Connect</h3>
+              <a href="https://www.hkubs.hku.hk/people/ye-luo/" data-editable="connect_2_1">Personal Website</a>
+              <a href="mailto:kurtluo@hku.hk" data-editable="connect_2_2">Email</a>
+            </div>
+            <div class="person-copy">
+              <h2 data-editable="person_2_name">Ye Luo</h2>
+              <p class="person-role" data-editable="person_2_role">Associate Professor; Associate Director, Institute of Digital Economy and Innovation, HKU Business School</p>
+              <p data-editable="person_2_bio_1">Ye Luo is an Associate Professor at HKU Business School, working across economics, finance, machine learning and high-dimensional econometrics.</p>
+              <div class="person-extra" id="person_2_more" hidden>
+                <p data-editable="person_2_bio_2">He received his Ph.D. from MIT in 2015 and his B.S. from MIT in Mathematics and Economics in 2010. His work applies AI, big data methods and machine learning to automated trading, default risk prediction, dynamic demand prediction and natural language processing.</p>
+              </div>
+              <a class="read-more" href="#person_2_more" aria-expanded="false" data-editable="person_2_read">Read more</a>
+            </div>
+          </div>
+
+          <div class="person-card">
+            <div class="person-media">
+              <img src="3.jpg" alt="">
+            </div>
+            <div class="person-connect">
+              <h3 data-editable="connect_label_3">Connect</h3>
+              <a data-editable='connect_3_1' href='https://wabyking.github.io/'>Personal Website</a>
+            </div>
+            <div class="person-copy">
+              <h2 data-editable="person_3_name">Benyou Wang</h2>
+              <p class="person-role" data-editable="person_3_role">Assistant Professor, School of Data Science, The Chinese University of Hong Kong, Shenzhen</p>
+              <p data-editable="person_3_bio_1">Benyou Wang is an Assistant Professor at CUHK-Shenzhen and leads work connected with the CUHKSZ LLM group.</p>
+              <div class="person-extra" id="person_3_more" hidden>
+                <p data-editable="person_3_bio_2">He received his Ph.D. from the University of Padova and joined CUHK-Shenzhen in 2022. His recent work covers large language models, reasoning, multimodal and medical AI, financial AI, user simulation and model evaluation.</p>
+              </div>
+              <a class="read-more" href="#person_3_more" aria-expanded="false" data-editable="person_3_read">Read more</a>
+            </div>
+          </div>
+
+          <div class="person-card">
+            <div class="person-media">
+              <img src="4.jpeg" alt="">
+            </div>
+            <div class="person-connect">
+              <h3 data-editable="connect_label_4">Connect</h3>
+              <a href="https://polysz.cuhk.edu.cn/en/content/10883" data-editable="connect_4_1">Profile</a>
+              <a href="mailto:zhahy@cuhk.edu.cn" data-editable="connect_4_2">Email</a>
+            </div>
+            <div class="person-copy">
+              <h2 data-editable="person_4_name">Hongyuan Zha</h2>
+              <p class="person-role" data-editable="person_4_role">Associate Director (Research), Shenzhen Institute of Artificial Intelligence and Robotics for Society</p>
+              <p data-editable="person_4_bio_1">Hongyuan Zha is Associate Director (Research) of the Shenzhen Institute of Artificial Intelligence and Robotics for Society and Presidential Chair Professor at the Institute for Data and Decision Analytics, CUHK-Shenzhen.</p>
+              <div class="person-extra" id="person_4_more" hidden>
+                <p data-editable="person_4_bio_2">He received his B.S. from Fudan University and his Ph.D. in scientific computing from Stanford University. His research fields include machine learning, computational mathematics and their applications.</p>
+              </div>
+              <a class="read-more" href="#person_4_more" aria-expanded="false" data-editable="person_4_read">Read more</a>
+            </div>
+          </div>
+
+          <div class="person-card">
+            <div class="person-media">
+              <img src="5.webp" alt="">
+            </div>
+            <div class="person-connect">
+              <h3 data-editable="connect_label_5">Connect</h3>
+              <a href="https://www.ntu.edu.sg/computing/research/institutes-centres/grail/our-people" data-editable="connect_5_1">Profile</a>
+            </div>
+            <div class="person-copy">
+              <h2 data-editable="person_5_name">Dacheng Tao</h2>
+              <p class="person-role" data-editable="person_5_role">Distinguished University Professor, College of Computing and Data Science, NTU</p>
+              <p data-editable="person_5_bio_1">Dacheng Tao is a Distinguished University Professor at Nanyang Technological University's College of Computing and Data Science and a leading scholar in artificial intelligence.</p>
+              <div class="person-extra" id="person_5_more" hidden>
+                <p data-editable="person_5_bio_2">His work applies statistics and mathematics to AI, with more than 300 publications in leading journals and conferences. He has received major awards and is a Fellow of the Australian Academy of Science, Royal Society of NSW, World Academy of Sciences, AAAS, ACM and IEEE.</p>
+              </div>
+              <a class="read-more" href="#person_5_more" aria-expanded="false" data-editable="person_5_read">Read more</a>
+            </div>
+          </div>
+
+          <div class="person-card">
+            <div class="person-media">
+              <img src="6.jpeg" alt="">
+            </div>
+            <div class="person-connect">
+              <h3 data-editable="connect_label_6">Connect</h3>
+              <a href="https://myweb.cuhk.edu.cn/gaopin" data-editable="connect_6_1">Personal Website</a>
+            </div>
+            <div class="person-copy">
+              <h2 data-editable="person_6_name">Pin Gao</h2>
+              <p class="person-role" data-editable="person_6_role">Assistant Professor, School of Data Science, CUHK-Shenzhen</p>
+              <p data-editable="person_6_bio_1">Pin Gao is an Assistant Professor at the School of Data Science, CUHK-Shenzhen, and Assistant Professor by courtesy at the School of Management and Economics.</p>
+              <div class="person-extra" id="person_6_more" hidden>
+                <p data-editable="person_6_bio_2">He is Deputy Director of the Feng1-CUHKSZ Joint Laboratory for Smart Retail. He received his Ph.D. in Industrial Engineering and Decision Analytics from HKUST, and his research interest focuses on platform operations management.</p>
+              </div>
+              <a class="read-more" href="#person_6_more" aria-expanded="false" data-editable="person_6_read">Read more</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <script>
+        document.querySelectorAll('.read-more[href^="#person_"]').forEach(function (toggle) {
+          toggle.addEventListener('click', function (event) {
+            event.preventDefault();
+            var target = document.querySelector(toggle.getAttribute('href'));
+            if (!target) return;
+            var expanded = toggle.getAttribute('aria-expanded') === 'true';
+            target.hidden = expanded;
+            toggle.setAttribute('aria-expanded', String(!expanded));
+            toggle.textContent = expanded ? 'Read more' : 'Show less';
+          });
+        });
+      </script>
+
+    </main>
+  </body>
+</html>
+
