@@ -29,11 +29,11 @@ jobs:
         shell: bash
         run: |
           case "${GITHUB_REPOSITORY}" in
-            ewm/ewm.github.io)
-              echo "target=FreedomIntelligence/ewm.github.io" >> "$GITHUB_OUTPUT"
+            economic-world-model/economic-world-model.github.io)
+              echo "target=FreedomIntelligence/economic-world-model.github.io" >> "$GITHUB_OUTPUT"
               ;;
-            FreedomIntelligence/ewm.github.io)
-              echo "target=ewm/ewm.github.io" >> "$GITHUB_OUTPUT"
+            FreedomIntelligence/economic-world-model.github.io)
+              echo "target=economic-world-model/economic-world-model.github.io" >> "$GITHUB_OUTPUT"
               ;;
             *)
               echo "No peer repository configured for ${GITHUB_REPOSITORY}."
